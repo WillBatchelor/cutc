@@ -3,14 +3,13 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <string.h>
-int main() 
+int main(int argc, char* argv[]) 
 { 
   // Will come from argv[1]
-    char t_strt[] = "09:45";
     char token_list[20][20];
     char* context = NULL;
     const char s[2] = ":";
-    char* token = strtok_r(t_strt, s, &context);
+    char* token = strtok_r(argv[1], s, &context);
     int num_tokens = 0; //Inted to token list. We will append to the list
 
 	while (token != NULL){
