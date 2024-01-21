@@ -4,39 +4,32 @@
 #include <string.h>
 #include <time.h>
 
-int split_t_strt(char ts_arg)
-{
-// Will come from argv[1]
+
+int main(int argc, char* argv[]) 
+{ 
+// Split hour and minute digits from CL argument
     char token_list[20][20];
     char* context = NULL;
     const char s[2] = ":";
     char* token = strtok_r(argv[1], s, &context);
-    int num_tokens = 0; //Inted to token list. We will append to the list
+    int num_tokens = 0; 
 
 	while (token != NULL){
-	    strcpy(token_list[num_tokens], token); // Copy to token list
+	    strcpy(token_list[num_tokens], token); 
 	    num_tokens++;
 	    token = strtok_r(NULL, s, &context);
 	}
-	// Type casting hours and minutes variables to calculate with later 	
+	// Type casting hours minutes and UT variables to calculate with later 	
 int t_strt_hr = atoi(token_list[0]);
 int t_strt_min = atoi(token_list[1]);
+int uts = atoi(argv[2]);
 
-
-	printf("Hour variable is %d \n", t_strt_hr);  
-	printf("Minute variable is %d \n", t_strt_min);
-
-}
-int main(int argc, char* argv[]) 
-{ 
-
-  
+// Calculate End Time by adding minutes converted from UTs to Start Time
 	int ret;
 	struct tm info;
-	char buffer[80];
-	info.tm_hour = 23;
-	info.tm_min = 30;
-	int uts = 15;
+	char t_end[80];
+	info.tm_hour = t_strt_hr;
+	info.tm_min = t_strt_min;
 	int uts_min = uts * 6;
 
 	info.tm_min += uts_min;
@@ -45,8 +38,9 @@ int main(int argc, char* argv[])
 if( ret == -1 ) {
 	printf("Error: unable to make time using mktime\n");
 } else {
-	strftime(buffer, sizeof(buffer), "%H:%M", &info );
-	printf("%s", buffer);
+	//Print Inputs and Outputs
+	strftime(t_end, sizeof(t_end), "%H:%M", &info );
+	printf("\nStart Time: %s:%s\n---\nUTs: %s\n---\nEnd Time: %s",token_list[0], token_list[1], argv[2], t_end);
 }
 
 	return 0; 
